@@ -37,7 +37,7 @@ class JoinView {
 
         if (this.userName === this.hostName) {
             this.$invitationLink = document.getElementById("invitation-url");
-            this.$invitationLink.value = `${window.location.host}/monopoly/join/${this.hostName}`;
+            this.$invitationLink.value = `${window.location.host}/join/${this.hostName}`;
 
             this.$copyTooltip = document.getElementById("copied-tooltip");
             this.$copyButton = document.getElementById("share-invitation");
@@ -106,11 +106,11 @@ class JoinView {
     }
 
     navigateToGame() {
-        window.location = `http://${window.location.host}/monopoly/game/${this.hostName}`;
+        window.location = `http://${window.location.host}/game/${this.hostName}`;
     }
 
     navigateBack() {
-        window.location = `http://${window.location.host}/monopoly/join`;
+        window.location = `http://${window.location.host}/join`;
     }
 
     copyToClipboard() {

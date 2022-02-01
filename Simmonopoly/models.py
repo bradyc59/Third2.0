@@ -1,12 +1,50 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.tokens import default_token_generator
 from django.db import models
+from django.urls import reverse
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.CharField(max_length=140, blank=True)
+    avatar = models.FileField(blank=False)
+
+    def __str__(self):
+        return str(self.user) + str(self.bio) + str(self.avatar)
 
 class GamePieces(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     picture = models.FileField(upload_to='product_img', blank=True)
 
-class CaUser(AbstractUser):
-    is_admin = models.BooleanField(default=False)
+class Session:
+    def __init__(self):
+        pass
+
+    def register(self, conf):
+        error_message = "Error: "
+        for (key, value) in conf.items():
+            if key == "request": continue
+            if not value or len(value) == 0:
+                error_message += key + " can't be empty."
+                return False, error_message
+
+        if len(User.objects.filter(username=conf["username"])):
+            error_message += "the username isn't available. Please try another."
+            return False, error_message
+
+        request = conf["request"]
+
+        user = User.objects.create_user(
+            username=conf["username"],
+            first_name=conf["firstname"],
+            last_name=conf["lastname"],
+            password=conf["password"]
+        )
+
+        user.is_active = False
+        user.save()
+
+
+        return True, None
+

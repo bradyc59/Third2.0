@@ -24,19 +24,18 @@
                 <input name="firstname" id="login-first-name" placeholder="First Name"/>
                 <input name="lastname" id="login-last-name" placeholder="Last Name"/>
             </div>
-            <input name="email" type="email" id="login-email" placeholder="Email"/>
             {% endif %}
             <input name="username" id="login-user-name" placeholder="User Name"/>
             <input name="password" type="password" id="login-password" placeholder="Password"/>
-            <button type="submit" id="login-submit" class="large-button">{{active_page}}</button>
+            <button type="submit" id="login-submit" class="large-button">Login</button>
         </form>
         <span id="login-switch" class="card">
             {% if active_page == "register" %}
             Already Signed Up? &nbsp;
-            <a href="/monopoly/login">Log Into Existing Account</a>
+            <a href="/">Log Into Existing Account</a>
             {% else %}
             New Here? &nbsp;
-            <a href="/signup">Create New Account</a>
+            <a href="/register">Create New Account</a>
             {% endif %}
         </span>
     </div>
