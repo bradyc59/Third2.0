@@ -7,7 +7,7 @@ from django.urls import reverse
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=140, blank=True)
-    avatar = models.FileField(blank=False)
+    avatar = models.ImageField(upload_to='profile_image', blank=True)
 
     def __str__(self):
         return str(self.user) + str(self.bio) + str(self.avatar)
