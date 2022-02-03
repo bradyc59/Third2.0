@@ -19,10 +19,6 @@ games = {}
 changehandlers = {}
 
 
-def ws_message(message):
-    print( 'message is: ', message.content)
-
-
 # @login_required
 @channel_session_user_from_http
 def ws_add(message):

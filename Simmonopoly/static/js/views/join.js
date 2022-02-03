@@ -92,7 +92,7 @@ class JoinView {
             this.friends.push(friend.name);
 
             this.$usersContainer.innerHTML += `
-                <a href="/monopoly/profile/${friend.name}" target="_blank">
+                <a href="/profile/${friend.name}" target="_blank">
                     <img class="joined-user-avatar" src="${friend.avatar}" title="${friend.name}">
                 </a>
             `;
