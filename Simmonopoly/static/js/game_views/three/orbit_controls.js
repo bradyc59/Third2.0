@@ -1,12 +1,5 @@
 "use strict";
 
-/**
- * @author qiao / https://github.com/qiao
- * @author mrdoob / http://mrdoob.com
- * @author alteredq / http://alteredqualia.com/
- * @author WestLangley / http://github.com/WestLangley
- * @author Zhongyi Tong / http://github.com/geeeeeeeeek
- */
 
 THREE.OrbitControls = function (object, domElement) {
     this.object = object;
