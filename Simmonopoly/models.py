@@ -37,8 +37,6 @@ class Session:
 
         user = User.objects.create_user(
             username=conf["username"],
-            first_name=conf["firstname"],
-            last_name=conf["lastname"],
             password=conf["password"]
         )
 

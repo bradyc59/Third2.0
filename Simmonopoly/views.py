@@ -13,31 +13,6 @@ from Simmonopoly.forms import User
 def index(request):
     return render(request, 'index.html')
 
-class RegisterView(View):
-    initial = {'active_page': 'register'}
-    template_name = 'index.html'
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, self.initial)
-
-    def post(self, request, *args, **kwargs):
-        conf = {
-            "request": request,
-            "username": request.POST.get("username", None),
-            "firstname": request.POST.get("firstname", None),
-            "lastname": request.POST.get("lastname", None),
-            "password": request.POST.get("password", None),
-        }
-        successful, auth_or_error = Session().register(conf)
-
-        if successful:
-            res = {'active_page': 'register'}
-            return render(request, self.template_name, res)
-        else:
-            res = {'active_page': 'register',
-                   "error": auth_or_error}
-            return render(request, self.template_name, res)
-
 
 def logout_view(request):
     logout(request)
