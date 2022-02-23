@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser, User
 from django.contrib.auth.tokens import default_token_generator
 from django.db import models
-from django.urls import reverse
+
 
 
 class Profile(models.Model):
@@ -11,11 +11,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user) + str(self.bio) + str(self.avatar)
-
-class GamePieces(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    picture = models.FileField(upload_to='product_img', blank=True)
 
 class Session:
     def __init__(self):

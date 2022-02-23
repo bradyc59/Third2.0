@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import CreateView
@@ -9,10 +10,8 @@ from Simmonopoly.models import Profile, Session
 from Simmonopoly.forms import User
 
 
-
 def index(request):
-    return render(request, 'index.html')
-
+    return render(request, "index.html")
 
 def logout_view(request):
     logout(request)
@@ -46,16 +45,6 @@ class LoginView(View):
             res = {'active_page': 'login',
                    "error": "Invalid username or password."}
             return render(request, self.template_name, res)
-
-
-class GameView(View):
-    template_name = 'game_view.html'
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {
-            "username": request.user.username,
-            "hostname": kwargs.get("host_name")
-        })
 
 
 class ProfileView(View):

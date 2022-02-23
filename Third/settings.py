@@ -15,6 +15,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -43,13 +46,15 @@ INSTALLED_APPS = [
     'Simmonopoly'
 ]
 
-'''CHANNEL_LAYERS = {
+CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "ROUTING": "Simmonopoly.routing.channel_routing",
+        'CONFIG': {
+              "hosts": [('127.0.0.1', 6379)],
+         },
     },
 }
-'''
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -83,8 +88,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Third.wsgi.application'
-ASGI_APPLICATION = "Third.asgi.application"
+ASGI_APPLICATION = 'Third.asgi.application'
 
+STREAM_SOCKET_GROUP_NAME = 'system_detail'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
