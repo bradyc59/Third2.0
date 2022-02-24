@@ -2,15 +2,14 @@ from django.contrib.auth.models import AbstractUser, User
 from django.contrib.auth.tokens import default_token_generator
 from django.db import models
 
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=140, blank=True)
     avatar = models.ImageField(upload_to='profile_image', blank=True)
 
     def __str__(self):
-        return str(self.user) + str(self.bio) + str(self.avatar)
+        return str(self.user) + "Profile"
+
 
 class Session:
     def __init__(self):

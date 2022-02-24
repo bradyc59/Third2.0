@@ -4,3 +4,8 @@ document.querySelector('#room_code').focus();
                 document.querySelector('#submit').click();
             }
         };
+
+        document.querySelector('#room-name-submit').onclick = function(e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            window.location.pathname = '/chat/' + roomName + '/';
+        };

@@ -8,6 +8,7 @@ from django.views.generic import CreateView
 from Simmonopoly.forms import ProfileForm, CASignupForm
 from Simmonopoly.models import Profile, Session
 from Simmonopoly.forms import User
+from models import Room
 
 
 def index(request):
@@ -125,7 +126,7 @@ class JoinView(View):
     template_name = 'join_view.html'
 
     def get(self, request, *args, **kwargs):
-        print (request.path)
+        print(request.path)
         user = request.user
         host_name = kwargs.get('host_name', user.username)
 
@@ -153,4 +154,5 @@ class CaUserSignupView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('/join/' + user.username)
+
 

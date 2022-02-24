@@ -1,7 +1,6 @@
 
-
-var connectionString = 'ws://' + window.location.host + '/ws/join/' + '45' + '/';
-var gameSocket = new WebSocket(connectionString);
+const connectionString = 'ws://' + window.location.host + '/ws/join/' + '45' + '/';
+const gameSocket = new WebSocket(connectionString);
 
 function connect() {
     gameSocket.onopen = function open() {

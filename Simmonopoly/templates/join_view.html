@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-
+{{ room_code|json_script:"room_code" }}
 <div id="join-card-container" class="card">
     <input id="user-name" value="{{ user.name }}" hidden>
     <input id="room_code" value="{{ room_code }}" hidden>

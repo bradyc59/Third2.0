@@ -9,40 +9,19 @@
 {% endblock %}
 
 {% block content %}
-<div id="join-card-container" class="card">
-    <input id="user-name" value="{{ user.name }}" hidden>
-    <input id="room_code" value="{{ room_code }}" hidden>
-    <div class="card-blur-container">
-        <div class="card-blur"></div>
-    </div>
-    <div class="card-content-container">
-        <h1 id="heading">Join a Game</h1>
-        <a href="/profile/{{ user.name }}" target="_blank">
-            <img id="user-avatar" src="{{ user.avatar }}">
-        </a>
-        <form method="POST">
-            {% csrf_token %}
-            <div id="subtext"><label for="room_code">Game Code<br><input type="text" name="room_code"></label></div>
-
-            <button type="submit" id="submit"> Submit </button>
-            </form>
-    </div>
-</div>
-
 <div id="create-card-container" class="card"><input id="user-name" value="{{ user.name }}" hidden>
     <input id="room_code" value="{{ room_code }}" hidden>
     <div class="card-blur-container">
         <div class="card-blur"></div>
     </div>
     <div class="card-content-container">
-        <h2 id="heading">Create a game</h2>
-        <a href="/profile/{{ user.name }}" target="_blank">
-            <img id="user-avatar" src="{{ user.avatar }}">
-        </a>
-        <form method="POST">
+        <h2 class="heading">Create/Join a game</h2>
+        <p class="description">Enter a Game Code</p>
+        <p class="small_description">if it doesnt exist it will create one for you!</p>
+        <form method="POST" action="check_room">
             {% csrf_token %}
-        <div id="subtext"><label for="room_code">Game Code<br><input type="text" name="room_code"></label></div>
-            <button type="submit" id="submit"> Submit </button>
+        <div class="subtext"><label for="room_code"><input type="text" id="create_game_code" name="room_code"></label></div>
+            <br><button type="submit" class="submit"> Submit </button>
             </form>
     </div>
 </div>
