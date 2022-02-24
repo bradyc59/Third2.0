@@ -24,10 +24,5 @@ from Simmonopoly import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('join/<host_name>', login_required(views.JoinView.as_view()), name="join"),
-    path('login/', views.LoginView.as_view(), name="index"), # /app
-    path('', views.LoginView.as_view(), name="index"), # /app
-    path('profile/<profile_user>', login_required(views.ProfileView.as_view()), name="profile"),
-    path('register/', views.CaUserSignupView.as_view(), name='confirm'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

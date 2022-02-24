@@ -1,68 +1,52 @@
-"use strict";
 
-/**
- *WebSocket Interface
- */
 
-/*const receivedMessage = {
-    action: "join" | "start",
-    data: [{
-        id: "user_id",
-        name: "user_name",
-        avatar: "user_url"
-    }]
-};
-const sentMessage = {
-    action: "start"
+var connectionString = 'ws://' + window.location.host + '/ws/join/' + '45' + '/';
+var gameSocket = new WebSocket(connectionString);
 
-};*/
+function connect() {
+    gameSocket.onopen = function open() {
+        console.log('WebSockets connection created.');
+        gameSocket.send(JSON.stringify({
+            "event": "START",
+            "message": ""
+        }));
+    };
 
-class JoinView {
-    constructor() {
-        this.userName = document.getElementById("user-name").value;
-        this.hostName = document.getElementById("host-name").value;
-        this.friends = [this.userName];
-
-        this.initComponents();
-
-    }
-
-    initComponents() {
-        this.$usersContainer = document.getElementById("joined-users-container");
-        this.$newGameNotice = document.getElementById("new-game-notice");
-        this.$startGame = document.getElementById("start-game");
-        this.$startGame.addEventListener("click", () => {
-            this.startGame();
-        });
-
-        if (this.userName === this.hostName) {
-            this.$invitationLink = document.getElementById("invitation-url");
-            this.$invitationLink.value = `${window.location.host}/join/${this.hostName}`;
-
-            this.$copyTooltip = document.getElementById("copied-tooltip");
-            this.$copyButton = document.getElementById("share-invitation");
-            this.$copyButton.addEventListener("click", () => {
-                this.copyToClipboard();
-            })
+    gameSocket.onclose = function (e) {
+        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+        setTimeout(function () {
+            connect();
+        }, 1000);
+    };
+    // Sending the info about the room
+    gameSocket.onmessage = function (e) {
+        let data = JSON.parse(e.data);
+        data = data["payload"];
+        let message = data['message'];
+        let event = data["event"];
+        switch (event) {
+            case "START":
+                reset();
+                break;
+            case "END":
+                alert(message);
+                reset();
+                break;
+            case "MOVE":
+                if(message["player"] != char_choice){
+                    make_move(message["index"], message["player"])
+                    myturn = true;
+                    document.getElementById("alert_move").style.display = 'inline';
+                }
+                break;
+            default:
+                console.log("No event")
         }
+    };
 
-        const isProfileInited = document.getElementById("user-avatar").getAttribute("src").length !== 0;
-        if (!isProfileInited) {
-            const $addProfileButton = document.getElementById("init-profile");
-            $addProfileButton.classList.remove("hidden");
-        }
+    if (gameSocket.readyState == WebSocket.OPEN) {
+        gameSocket.onopen();
     }
+}
 
-
-    navigateToGame() {
-        window.location = `http://${window.location.host}/game/${this.hostName}`;
-    }
-
-    navigateBack() {
-        window.location = `http://${window.location.host}/join`;
-    }
-
-
-window.onload = () => {
-    new JoinView();
-};
+connect();

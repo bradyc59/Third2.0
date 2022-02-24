@@ -17,6 +17,15 @@ def logout_view(request):
     logout(request)
     return redirect('/')
 
+def lobby(request):
+    if request.method == "POST":
+        room_code = request.POST.get("room_code")
+        return redirect(
+            '/join/%s'
+            %(room_code)
+        )
+    return render(request, "lobby.html")
+
 class LoginView(View):
     initial = {'active_page': 'register'}
     template_name = 'index.html'
@@ -35,7 +44,7 @@ class LoginView(View):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect("/join/" + user.username)
+                return redirect("/lobby")
 
             else:
                 res = {'active_page': 'login',
