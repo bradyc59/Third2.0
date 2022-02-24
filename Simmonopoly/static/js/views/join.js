@@ -1,51 +1,71 @@
+class Join {
+    constructor() {
+        this.userName = document.getElementById("user-name").value;
+        this.roomName = document.getElementById("room_code").value;
 
-const connectionString = 'ws://' + window.location.host + '/ws/join/' + '45' + '/';
-const gameSocket = new WebSocket(connectionString);
+        this.initComponents();
+        this.initWebsockets();
+    }
 
-function connect() {
-    gameSocket.onopen = function open() {
-        console.log('WebSockets connection created.');
-        gameSocket.send(JSON.stringify({
-            "event": "START",
-            "message": ""
-        }));
-    };
-
-    gameSocket.onclose = function (e) {
-        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-        setTimeout(function () {
-            connect();
-        }, 1000);
-    };
-    // Sending the info about the room
-    gameSocket.onmessage = function (e) {
-        let data = JSON.parse(e.data);
-        data = data["payload"];
-        let message = data['message'];
-        let event = data["event"];
-        switch (event) {
-            case "START":
-                reset();
-                break;
-            case "END":
-                alert(message);
-                reset();
-                break;
-            case "MOVE":
-                if(message["player"] != char_choice){
-                    make_move(message["index"], message["player"])
-                    myturn = true;
-                    document.getElementById("alert_move").style.display = 'inline';
-                }
-                break;
-            default:
-                console.log("No event")
+    initComponents() {
+        this.$userContainer = document.getElementById("joined-users-container");
+        const isProfileInited = document.getElementById("user-avatar").getAttribute("src").length !== 0;
+        if (!isProfileInited) {
+            const $addProfileButton = document.getElementById("init-profile");
+            $addProfileButton.classList.remove("hidden");
         }
-    };
+    }
 
-    if (gameSocket.readyState == WebSocket.OPEN) {
-        gameSocket.onopen();
+    initWebsockets() {
+        const connectionString = 'ws://' + window.location.host + '/ws/join/' + this.roomName + '/';
+        const gameSocket = new WebSocket(connectionString);
+        gameSocket.onopen = function open() {
+            console.log('WebSockets connection created.');
+            gameSocket.send(JSON.stringify({
+                "event": "START",
+                "message": ""
+            }));
+        };
+
+        gameSocket.onclose = function (e) {
+            console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+            setTimeout(function () {
+                this.initWebsockets();
+            }, 1000);
+        };
+
+        if (gameSocket.readyState == WebSocket.OPEN) {
+            gameSocket.onopen();
+        }
+    }
+    handleStatusChange(message) {
+        if (message.action === "join") {
+            this.addFriend(message.data);
+
+            if (this.friends.length > 1) {
+                if (this.hostName !== this.userName) {
+                    this.$startGame.innerText = "Waiting for host to start the game...";
+                } else {
+                    this.$startGame.disabled = false;
+                    this.$startGame.innerText = "Start Game";
+                }
+            }
+        } else if (message.action === "start") {
+            this.navigateToGame();
+        } else if (message.action === "fail_join") {
+            this.$startGame.disabled = true;
+            this.$startGame.innerText = "Navigating back... Create your own game!";
+            this.$newGameNotice.innerText = "4 Players Max Per Game!";
+            this.$newGameNotice.style.color = "#F44336";
+            setTimeout(this.navigateBack, 2000);
+        }
     }
 }
+window.onload = () => {
+    new Join();
+};
 
-connect();
+
+
+
+

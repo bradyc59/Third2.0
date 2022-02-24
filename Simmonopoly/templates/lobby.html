@@ -18,7 +18,7 @@
         <h2 class="heading">Create/Join a game</h2>
         <p class="description">Enter a Game Code</p>
         <p class="small_description">if it doesnt exist it will create one for you!</p>
-        <form method="POST" action="check_room">
+        <form method="POST">
             {% csrf_token %}
         <div class="subtext"><label for="room_code"><input type="text" id="create_game_code" name="room_code"></label></div>
             <br><button type="submit" class="submit"> Submit </button>

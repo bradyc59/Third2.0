@@ -8,7 +8,7 @@ from django.views.generic import CreateView
 from Simmonopoly.forms import ProfileForm, CASignupForm
 from Simmonopoly.models import Profile, Session
 from Simmonopoly.forms import User
-from models import Room
+
 
 
 def index(request):
@@ -129,6 +129,7 @@ class JoinView(View):
         print(request.path)
         user = request.user
         host_name = kwargs.get('host_name', user.username)
+        room_code = kwargs.get('room_code')
 
         try:
             profile = Profile.objects.get(user=user)
@@ -140,7 +141,8 @@ class JoinView(View):
                 "name": user.username,
                 "avatar": profile.avatar.url if profile else ""
             },
-            "host_name": host_name if len(host_name) else user.username
+            "host_name": host_name if len(host_name) else user.username,
+            "room_code": room_code
         })
 class CaUserSignupView(CreateView):
     model = User
